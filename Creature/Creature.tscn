@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Creature/creature.gd" type="Script" id=1]
+[ext_resource path="res://Creature/bug-sprite.png" type="Texture" id=2]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 5.10975
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 28.7709
+
+[node name="Creature" type="Area2D"]
+collision_layer = 2
+collision_mask = 5
+script = ExtResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 0.427189, 0.85437 )
+scale = Vector2( 0.167875, 0.176774 )
+texture = ExtResource( 2 )
+
+[node name="direction_timer" type="Timer" parent="."]
+autostart = true
+
+[node name="collision_body" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="vision" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 4
+
+[node name="vision_range" type="CollisionShape2D" parent="vision"]
+shape = SubResource( 2 )
+
+[node name="eating_timer" type="Timer" parent="."]
+[connection signal="area_entered" from="." to="." method="_on_creature_area_entered"]
+[connection signal="input_event" from="." to="." method="_on_creature_input_event"]
+[connection signal="timeout" from="direction_timer" to="." method="_on_direction_timer_timeout"]
+[connection signal="area_entered" from="vision" to="." method="_on_vision_area_entered"]
+[connection signal="timeout" from="eating_timer" to="." method="_on_eating_timer_timeout"]
